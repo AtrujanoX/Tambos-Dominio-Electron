@@ -1,0 +1,79 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>NERF PARTY</title>
+  <link href="assets/css/estilos.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+  <div class="bg">
+    <img src="assets/img/logo.png" class="logoDerecha">
+    <img src="assets/img/logo.png" class="logoIzquierda">
+
+    <div id="tiempo" class="numeros">
+      00:00:00
+    </div>
+
+    <div id="botones" class="btns">
+      <button class="boton">Start</button>
+      <button class="boton">Stop</button>
+      <button class="boton">Options</button>
+      <button class="boton">Reset</button>
+    </div>
+
+    <div class="info">
+      <h1 class="titulo neon">Dominio</h1>
+      <div class="row">
+        <div class="column">
+          <ul>
+            <li class="skill">
+
+              <p
+                style="position: absolute; color: #FFF; font-family: guerra; top: 20%; text-align: left; margin-left: 20px;">
+                EQUIPO: 1</p>
+
+              <progress class="skill-2" max="100" value="100">
+                <strong>Skill Level: 50%</strong>
+              </progress>
+            </li>
+          </ul>
+        </div>
+        <div class="column" id="centroLogo">
+          <h2>0</h2>
+          <p>0</p>
+        </div>
+        <div class="column" style=" text-align: right;">
+
+          <ul style="-webkit-transform: scaleX(-1); transform: scaleX(-1);">
+            <li class="skill">
+              <p style="position: absolute; color: #FFF; font-family: guerra; top: 20%; text-align: left; margin-left: 20px; -webkit-transform: scaleX(-1); transform: scaleX(-1);">
+                EQUIPO: 2
+              </p>
+              <progress class="skill-1" max="100" value="100">
+                <strong>Skill Level: 50%</strong>
+              </progress>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="contenido">
+      <div class="container">
+        <div class="box">
+          <div class="cuadro">1</div>
+        </div>
+        <div class="box">
+          <div class="cuadro">2</div>
+        </div>
+        <div class="box">
+          <div class="cuadro">3</div>
+        </div>
+        <div class="box">
+          <div class="cuadro">4</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="renderer.js"></script>
+</body>
+</html>

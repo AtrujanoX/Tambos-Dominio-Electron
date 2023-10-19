@@ -1,0 +1,274 @@
+body, html {
+  height: 100%;
+  margin: 0;
+}
+
+@font-face {
+  font-family: digital;
+  src: url(../fuente/digital-7.woff);
+}
+
+@font-face {
+  font-family: guerra;
+  src: url(../fuente/resistance.woff);
+}
+
+@font-face {
+  font-family: grunge;
+  src: url(../fuente/way.woff);
+}
+
+@font-face {
+  font-family: sectar;
+  src: url(../fuente/Sectar.woff);
+}
+
+.bg {
+  /* The image used */
+  background-image: url("../img/fondo.jpg");
+
+  /* Full height */
+  height: 100%; 
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+
+.logoDerecha{
+	position: absolute;
+	right: 10px;
+	top: 10px;
+	width: 180px;
+}
+
+.logoIzquierda{
+	position: absolute;
+	left: 10px;
+	top: 10px;
+	width: 180px;
+}
+
+
+.numeros{
+	    top:5%;
+		font-family: digital;
+		background: #121312; 
+		color: #FFF; 
+		width: 400px; 
+		height: 120px; 
+		text-align: center; 
+		font-size: 120px; 
+		font-weight: 900;
+	    position: absolute;
+left: 50%;
+-webkit-transform: translateX(-50%);
+transform: translateX(-50%)
+		
+	}
+
+
+
+.btns{
+	    top:18%;
+		font-family: digital;
+		background: #121312; 
+		color: #FFF; 
+		width: 400px; 
+		height: 40px; 
+		text-align: center; 
+	    position: absolute;
+left: 50%;
+-webkit-transform: translateX(-50%);
+transform: translateX(-50%)
+		
+	}
+
+
+.info{
+	position: absolute;
+	width: 100%;
+	top: 25%;
+
+}
+
+
+
+/* Create three equal columns that floats next to each other */
+.column {
+  float: left;
+  width: 33.33%;
+  /*padding: 10px;
+  height: 300px;*/ /* Should be removed. Only for demonstration */
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+
+
+
+
+ul {
+    list-style-type: none;
+}
+
+
+progress, progress[role] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: none;
+  background-size: auto;
+  height: 68px;
+  width: 100%;
+}
+
+.skill-list {
+  list-style: none;
+  margin: 0;
+ 
+}
+
+.skill {
+
+  position: relative;
+	
+	-webkit-box-shadow: -1px 2px 5px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: -1px 2px 5px 0px rgba(0,0,0,0.75);
+box-shadow: -1px 2px 5px 0px rgba(0,0,0,0.75);
+}
+
+.skill ::-webkit-progress-value {
+  -webkit-animation: bar-fill 2s;
+  width: 0px;
+}
+
+.skill-1::-webkit-progress-value {
+  background: #a80000;
+}
+
+.skill-1::-moz-progress-bar {
+  background: #a80000;
+}
+
+.skill-2::-webkit-progress-value {
+  background: #0006f8;
+}
+
+.skill-2::-moz-progress-bar {
+  background: #0006f8;
+}
+
+.skill-3::-webkit-progress-value {
+  background: #ff6b6b;
+}
+
+.skill-3::-moz-progress-bar {
+  background: #ff6b6b;
+}
+
+@-webkit-keyframes bar-fill {
+  0% {
+    width: 0;
+  }
+}
+@keyframes bar-fill {
+  0% {
+    width: 0;
+  }
+}
+
+#centroLogo{
+	text-align: right;
+	color: #d70000;
+	background-image: url("../img/vs.jpg");
+
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Do not repeat the image */
+  background-size: cover; /* Resize the background image to cover the entire container */
+	
+	-webkit-box-shadow: -1px 2px 5px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: -1px 2px 5px 0px rgba(0,0,0,0.75);
+box-shadow: -1px 2px 5px 0px rgba(0,0,0,0.75);
+	
+	
+}
+
+
+.titulo{
+	font-family: sectar;
+	color: #FFF;
+	text-align: center;
+	font-size: 80px;
+	margin-bottom: 1px;
+	
+}
+
+
+
+.neon {
+  color: #fff;
+  text-shadow:
+    0 0 1px #fff,
+    0 0 1px #fff,
+    0 0 1px #fff,
+    0 0 10px #F0B16E,
+    0 0 1px #F0B16E,
+    0 0 0px #F0B16E,
+    0 0 10px #F0B16E,
+    0 0 1px #F0B16E;
+}
+
+
+
+.boton {
+  background-color: #F3B135; /* Green */
+  border: none;
+  color: #000;
+  padding: 10px 25px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+
+
+.container {
+  display: flex;
+	justify-content: center;
+   position: absolute;
+   width: 100%;
+	bottom: 20%;
+
+}
+
+.box {
+	
+	color: white;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+	align-self: flex-end;
+}
+
+
+.cuadro{
+	border-radius: 25px;
+	background-image: linear-gradient(150deg, rgba(218,140,83,1) 0%, rgba(151,71,34,1) 100%);
+	width: 100px;
+	height: 100px;
+	font-family: sectar;
+	font-size: 60px;
+	border: 2px solid #ecb783;
+	 display: flex;
+  align-items: center;
+  justify-content: center;
+}

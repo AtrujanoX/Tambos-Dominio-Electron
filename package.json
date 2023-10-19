@@ -1,0 +1,24 @@
+{
+  "name": "tambos_dominio_electron",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "electron-virtual-keyboard": "^1.0.7",
+    "evilscan": "^1.9.1",
+    "jquery": "^3.7.0",
+    "serialport": "^11.0.0",
+    "simple-keyboard": "^3.6.13",
+    "tableify": "^1.1.1",
+    "udp": "^1.0.0"
+  },
+  "devDependencies": {
+    "electron": "^25.1.0"
+  }
+}
