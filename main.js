@@ -1,4 +1,9 @@
 const { app, BrowserWindow, ipcMain } = require("electron");
+const electron = require('electron');
+
+require('electron-reload')(__dirname,{
+  electron: require(`${__dirname}/node_modules/electron`)
+});
 
 let mainWindow;
 
@@ -22,6 +27,8 @@ function createWindow() {
   mainWindow.loadFile("index.html");
   mainWindow.webContents.openDevTools();
 }
+
+
 
 app.on("ready", () => {
   createWindow();

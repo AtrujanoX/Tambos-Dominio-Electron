@@ -1,0 +1,235 @@
+@charset "utf-8";
+/* CSS Document */
+
+@font-face {
+  font-family: reloj;
+  src: url(../fuente/RADIOLAND.woff);
+}
+
+@font-face {
+	 font-family: resistencia;
+  src: url(../fuente/Sectar.woff);
+}
+
+.relojito{
+	position: absolute;
+	width: 700px;
+	height: 200px;
+	background-color: #262323;
+	border: 5px solid #FCFCFC;
+	box-shadow: inset 0,0,0 5px;
+	top: 13px;
+	left: 620px;
+	
+	-webkit-box-shadow: 3px 4px 5px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: 3px 4px 5px 0px rgba(0,0,0,0.75);
+box-shadow: 3px 4px 5px 0px rgba(0,0,0,0.75);
+}
+
+.relojito::after, .relojito::before{
+	content: '';
+	z-index: -1;
+	box-shadow: inset 0 0 0 5px;
+	animation: clip 8s linear infinite;
+}
+
+#reloj{
+	font-family: reloj;
+	font-size: 130px;
+	text-align: center;
+	color: #FFF;
+}
+
+#titulo{
+	position: absolute;
+	top: 300px;
+	left: 600px;
+	font-family: resistencia;
+	/*font-size: 150px;*/
+	color: #FFF;
+	 /* Start the shake animation and make the animation last for 0.5 seconds */
+  animation: shake 0.5s;
+
+  /* When the animation is finished, start again */
+  animation-iteration-count: infinite;
+}
+
+@keyframes shake {
+  0% { transform: translate(1px, 1px) rotate(0deg); }
+  10% { transform: translate(-1px, -2px) rotate(-1deg); }
+  20% { transform: translate(-3px, 0px) rotate(1deg); }
+  30% { transform: translate(3px, 2px) rotate(0deg); }
+  40% { transform: translate(1px, -1px) rotate(1deg); }
+  50% { transform: translate(-1px, 2px) rotate(-1deg); }
+  60% { transform: translate(-3px, 1px) rotate(0deg); }
+  70% { transform: translate(3px, 1px) rotate(-1deg); }
+  80% { transform: translate(-1px, -1px) rotate(1deg); }
+  90% { transform: translate(1px, 2px) rotate(0deg); }
+  100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
+
+.circulo{
+	position: relative;
+	width: 100px;
+	height: 100px;
+	background: linear-gradient(#33ccff,#ff0066);
+	border-radius: 50%;
+}
+
+#equipos{
+	position: absolute;
+	top: 450px;
+	left: 150px;
+}
+
+#botones{
+	position:absolute;
+	bottom: 70px;
+	width: 100%;
+	text-align: center;
+}
+
+#botoncitos{
+	position: absolute;
+	top: 220px;
+	width: 700px;
+	left: 645px;
+	z-index: 10;
+}
+
+.anchura{
+	width: 160px;
+}
+
+#barIzq{
+	position: absolute;
+	top:57px;
+	left: 12px;
+	width: 660px;
+	transform: rotate(180deg);
+}
+
+#barDer{
+	position: absolute;
+	top:57px;
+	right: 22px;
+	width: 660px;
+}
+
+body {
+/* Location of the image */
+background-image: url(../img/fondo.jpg);
+
+/* Background image is centered vertically and horizontally at all times */
+background-position: center center;
+
+/* Background image doesn't tile */
+background-repeat: no-repeat;
+
+/* Background image is fixed in the viewport so that it doesn't move when
+the content's height is greater than the image's height */
+background-attachment: fixed;
+
+/* This is what makes the background image rescale based
+on the container's size */
+background-size: cover;
+
+/* Set a background color that will be displayed
+while the background image is loading */
+background-color: #464646;
+}
+
+span {
+  color: #000;
+  font-family: resistencia;
+  font-size: 8em;
+  text-transform: lowercase;
+  vertical-align: middle;
+  letter-spacing: .2em;
+}
+
+.fire {
+  animation: animation 1s ease-in-out infinite alternate;
+  -moz-animation: animation 1s ease-in-out infinite alternate;
+  -webkit-animation: animation 1s ease-in-out infinite alternate;
+  -o-animation: animation 1s ease-in-out infinite alternate;
+}
+
+.burn {
+  animation: animation .65s ease-in-out infinite alternate;
+  -moz-animation: animation .65s ease-in-out infinite alternate;
+  -webkit-animation: animation .65s ease-in-out infinite alternate;
+  -o-animation: animation .65s ease-in-out infinite alternate;
+}
+
+@keyframes animation
+{
+0% {text-shadow: 0 0 20px #fefcc9,
+  10px -10px 30px #feec85,
+  -20px -20px 40px #ffae34,
+  20px -40px 50px #ec760c,
+  -20px -60px 60px #cd4606,
+  0 -80px 70px #973716,
+  10px -90px 80px #451b0e;}
+100% {text-shadow: 0 0 20px #fefcc9,
+  10px -10px 30px #fefcc9,
+  -20px -20px 40px #feec85,
+  22px -42px 60px #ffae34,
+  -22px -58px 50px #ec760c,
+  0 -82px 80px #cd4606,
+  10px -90px 80px  #973716;}
+}
+
+@-moz-keyframes animation
+{
+0% {text-shadow: 0 0 20px #fefcc9,
+  10px -10px 30px #feec85,
+  -20px -20px 40px #ffae34,
+  20px -40px 50px #ec760c,
+  -20px -60px 60px #cd4606,
+  0 -80px 70px #973716,
+  10px -90px 80px #451b0e;}
+100% {text-shadow: 0 0 20px #fefcc9,
+  10px -10px 30px #fefcc9,
+  -20px -20px 40px #feec85,
+  22px -42px 60px #ffae34,
+  -22px -58px 50px #ec760c,
+  0 -82px 80px #cd4606,
+  10px -90px 80px  #973716;}
+}
+
+@-webkit-keyframes animation
+{
+0% {text-shadow: 0 0 20px #fefcc9,
+  10px -10px 30px #feec85,
+  -20px -20px 40px #ffae34,
+  20px -40px 50px #ec760c,
+  -20px -60px 60px #cd4606,
+  0 -80px 70px #973716,
+  10px -90px 80px #451b0e;}
+100% {text-shadow: 0 0 20px #fefcc9,
+  10px -10px 30px #fefcc9,
+  -20px -20px 40px #feec85,
+  22px -42px 60px #ffae34,
+  -22px -58px 50px #ec760c,
+  0 -82px 80px #cd4606,
+  10px -90px 80px  #973716;}
+}
+
+@-o-keyframes animation
+{
+0% {text-shadow: 0 0 20px #fefcc9,
+  10px -10px 30px #feec85,
+  -20px -20px 40px #ffae34,
+  20px -40px 50px #ec760c,
+  -20px -60px 60px #cd4606,
+  0 -80px 70px #973716,
+  10px -90px 80px #451b0e;}
+100% {text-shadow: 0 0 20px #fefcc9,
+  10px -10px 30px #fefcc9,
+  -20px -20px 40px #feec85,
+  22px -42px 60px #ffae34,
+  -22px -58px 50px #ec760c,
+  0 -82px 80px #cd4606,
+  10px -90px 80px  #973716;}
+}

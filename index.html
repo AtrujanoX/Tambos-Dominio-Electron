@@ -1,79 +1,129 @@
 <!doctype html>
-<html>
+<html lang="es">
+
 <head>
   <meta charset="utf-8">
-  <title>NERF PARTY</title>
-  <link href="assets/css/estilos.css" rel="stylesheet" type="text/css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dart Zone - Nerf Party</title>
+  <link href="css/style.css" rel="stylesheet">
+  <link href="css/design.css" rel="stylesheet">
+  <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
 </head>
+
 <body>
-  <div class="bg">
-    <img src="assets/img/logo.png" class="logoDerecha">
-    <img src="assets/img/logo.png" class="logoIzquierda">
-
-    <div id="tiempo" class="numeros">
-      00:00:00
-    </div>
-
-    <div id="botones" class="btns">
-      <button class="boton">Start</button>
-      <button class="boton">Stop</button>
-      <button class="boton">Options</button>
-      <button class="boton">Reset</button>
-    </div>
-
-    <div class="info">
-      <h1 class="titulo neon">Dominio</h1>
-      <div class="row">
-        <div class="column">
-          <ul>
-            <li class="skill">
-
-              <p
-                style="position: absolute; color: #FFF; font-family: guerra; top: 20%; text-align: left; margin-left: 20px;">
-                EQUIPO: 1</p>
-
-              <progress class="skill-2" max="100" value="100">
-                <strong>Skill Level: 50%</strong>
-              </progress>
-            </li>
-          </ul>
-        </div>
-        <div class="column" id="centroLogo">
-          <h2>0</h2>
-          <p>0</p>
-        </div>
-        <div class="column" style=" text-align: right;">
-
-          <ul style="-webkit-transform: scaleX(-1); transform: scaleX(-1);">
-            <li class="skill">
-              <p style="position: absolute; color: #FFF; font-family: guerra; top: 20%; text-align: left; margin-left: 20px; -webkit-transform: scaleX(-1); transform: scaleX(-1);">
-                EQUIPO: 2
-              </p>
-              <progress class="skill-1" max="100" value="100">
-                <strong>Skill Level: 50%</strong>
-              </progress>
-            </li>
-          </ul>
-        </div>
+  <img src="img/logo.png" style="position: absolute; top:2px; left:5px;" width="250">
+  <img src="img/logo.png" style="position: absolute; top:2px; right:5px;" width="250">
+  <div id="" class="relojito">
+    <div id="reloj"> 00:00:00 </div>
+  </div>
+  <div id="botoncitos">
+    <button type="button" id="btnStart" class="btn btn-warning anchura">START</button>
+    <button type="button" id="btnStop" class="btn btn-warning anchura">STOP</button>
+    <button type="button" id="btnOptions" class="btn btn-warning anchura" data-bs-target="#config"
+      data-bs-toggle="modal">OPTIONS</button>
+    <!-- <button type="button" id="btnOptions" class="btn btn-warning anchura">OPTIONS</button> -->
+    <button type="button" id="btnReset" class="btn btn-warning anchura">RESET</button>
+  </div>
+  <div id="titulo">
+    <span class="fire">D</span><span class="burn">O</span><span class="burn">M</span><span class="fire">I</span><span
+      class="fire">N</span><span class="burn">I</span><span class="burn">O</span>
+  </div>
+  <div id="equipos">
+    <img src="img/rayo.png" style="position: absolute; top: 0; left: 646px; z-index: 10;">
+    <div id="barIzq" class="progress-container">
+      <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="25" aria-valuemin="0"
+        aria-valuemax="100" style="height:80px">
+        <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 55%;"></div>
       </div>
     </div>
-    <div class="contenido">
-      <div class="container">
-        <div class="box">
-          <div class="cuadro">1</div>
+    <div id="barDer" class="progress-container">
+      <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="25" aria-valuemin="0"
+        aria-valuemax="100" style="height:80px">
+        <div class="progress-bar bg-danger progress-bar-striped progress-bar-animated" style="width: 25%;"></div>
+      </div>
+    </div>
+    <img src="img/vs.png" width="">
+  </div>
+  <div id="botones">
+    <div class="container text-center">
+      <div class="row align-items-start">
+        <div class="col">
+          <span class="fire" style="color: #CCC;">A</span>
         </div>
-        <div class="box">
-          <div class="cuadro">2</div>
+        <div class="col">
+          <span class="fire" style="color: #E80003;">B</span>
         </div>
-        <div class="box">
-          <div class="cuadro">3</div>
+        <div class="col">
+          <span class="fire" style="color: #CCC;">C</span>
         </div>
-        <div class="box">
-          <div class="cuadro">4</div>
+        <div class="col">
+          <span class="fire" style="color: #E80003;">D</span>
         </div>
       </div>
     </div>
   </div>
-  <script src="renderer.js"></script>
+  <div class="modal fade" role="dialog" id="config" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2"
+    tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Configuracion</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" style="text-align: center;">
+          <!-- aqui empieza los cards -->
+          <button type="button" id="btnResetAll" class="btn btn-warning">RESET ALL</button>
+          <button type="button" id="btnDiscoverDevs" class="btn btn-warning">DISCOVER DEVS</button>
+          <button type="button" id="btnClearDevsList" class="btn btn-warning">CLEAR DEVICES LIST</button>
+          <hr>
+          <div class="container text-center">
+            <div class="row align-items-end">
+              <!-- INICIA CARD -->
+              <div class="col-3">
+                <div class="card">
+                  <div class="card-header">
+                    CON 01
+                  </div>
+                  <div class="card-body">
+                    <h5 class="card-title">Configuraciones</h5>
+                    <table class="table">
+                      <tbody>
+                        <tr>
+                          <td><button type="button" class="btn btn-secondary">RESET</button></td>
+                          <td><button type="button" class="btn btn-secondary">IDENTIFY</button></td>
+                        </tr>
+                        <tr>
+                          <td colspan="2">
+                            <p>00-00-00-00-00</p>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td><button type="button" class="btn btn-secondary">DEFAULT RED</button></td>
+                          <td><button type="button" class="btn btn-secondary">DEFAULT BLUE</button></td>
+                        </tr>
+                        <tr>
+                          <td colspan="2">
+                            <p>00-00-00-00-00</p>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <!-- TERMINA CARD -->
+              
+            </div>
+          </div>
+          <!-- aqui termina cards   -->
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
+<script src="renderer.js"></script>
+
 </html>

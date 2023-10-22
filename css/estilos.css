@@ -36,7 +36,6 @@ body, html {
   background-size: cover;
 }
 
-
 .logoDerecha{
 	position: absolute;
 	right: 10px;
@@ -50,7 +49,6 @@ body, html {
 	top: 10px;
 	width: 180px;
 }
-
 
 .numeros{
 	    top:5%;
@@ -66,10 +64,7 @@ body, html {
 left: 50%;
 -webkit-transform: translateX(-50%);
 transform: translateX(-50%)
-		
 	}
-
-
 
 .btns{
 	    top:18%;
@@ -83,18 +78,13 @@ transform: translateX(-50%)
 left: 50%;
 -webkit-transform: translateX(-50%);
 transform: translateX(-50%)
-		
 	}
-
 
 .info{
 	position: absolute;
 	width: 100%;
 	top: 25%;
-
 }
-
-
 
 /* Create three equal columns that floats next to each other */
 .column {
@@ -111,14 +101,9 @@ transform: translateX(-50%)
   clear: both;
 }
 
-
-
-
-
 ul {
     list-style-type: none;
 }
-
 
 progress, progress[role] {
   -webkit-appearance: none;
@@ -133,11 +118,9 @@ progress, progress[role] {
 .skill-list {
   list-style: none;
   margin: 0;
- 
 }
 
 .skill {
-
   position: relative;
 	
 	-webkit-box-shadow: -1px 2px 5px 0px rgba(0,0,0,0.75);
@@ -179,6 +162,7 @@ box-shadow: -1px 2px 5px 0px rgba(0,0,0,0.75);
     width: 0;
   }
 }
+
 @keyframes bar-fill {
   0% {
     width: 0;
@@ -197,10 +181,7 @@ box-shadow: -1px 2px 5px 0px rgba(0,0,0,0.75);
 	-webkit-box-shadow: -1px 2px 5px 0px rgba(0,0,0,0.75);
 -moz-box-shadow: -1px 2px 5px 0px rgba(0,0,0,0.75);
 box-shadow: -1px 2px 5px 0px rgba(0,0,0,0.75);
-	
-	
 }
-
 
 .titulo{
 	font-family: sectar;
@@ -208,10 +189,7 @@ box-shadow: -1px 2px 5px 0px rgba(0,0,0,0.75);
 	text-align: center;
 	font-size: 80px;
 	margin-bottom: 1px;
-	
 }
-
-
 
 .neon {
   color: #fff;
@@ -226,8 +204,6 @@ box-shadow: -1px 2px 5px 0px rgba(0,0,0,0.75);
     0 0 1px #F0B16E;
 }
 
-
-
 .boton {
   background-color: #F3B135; /* Green */
   border: none;
@@ -239,26 +215,21 @@ box-shadow: -1px 2px 5px 0px rgba(0,0,0,0.75);
   font-size: 16px;
 }
 
-
-
 .container {
   display: flex;
 	justify-content: center;
    position: absolute;
    width: 100%;
 	bottom: 20%;
-
 }
 
 .box {
-	
 	color: white;
   flex: 1;
   display: flex;
   justify-content: center;
 	align-self: flex-end;
 }
-
 
 .cuadro{
 	border-radius: 25px;

@@ -1,36 +1,49 @@
-
 const { ipcRenderer } = require("electron");
 
 const fs = require("fs");
-const DeviceScanner = require("./devicescanner");
-const Device = require("./device");
+const DeviceScanner = require("./scripts/devicescanner");
+const Device = require("./scripts/device");
+const CentralUDPServer = require("./scripts/centralserver");
 const os = require("os");
 
-let uuid;
-let arduino;
-let points;
-let mistakes;
-
 document.addEventListener("DOMContentLoaded", () => {
+  const btnStart = document
+    .querySelector("#btnStart")
+    .addEventListener("click", () => {
+      console.log("START");
+    });
+  const btnStop = document
+    .querySelector("#btnStop")
+    .addEventListener("click", () => {
+      console.log("STOP");
+    });
+  const btnReset = document
+    .querySelector("#btnReset")
+    .addEventListener("click", () => {
+      console.log("RESET");
+    });
+  const btnResetAll = document
+    .querySelector("#btnResetAll")
+    .addEventListener("click", () => {
+      console.log("btnResetAll");
+    });
+  const btnDiscoverDevs = document
+    .querySelector("#btnDiscoverDevs")
+    .addEventListener("click", () => {
+      console.log("btnDiscoverDevs");
+      scanner.getDevicesInNetwork();
+    });
+  const btnClearDevsList = document
+    .querySelector("#btnClearDevsList")
+    .addEventListener("click", () => {
+      console.log("btnClearDevsList");
+    });
+
   const scanner = new DeviceScanner(8632, []);
-  scanner.register_discovered_device_callback((device) => {
-    console.log(`Discovered device: ${device}`);
-  });
-    /*const takePhotoButton = document.querySelector("#takePictureButton");
-    takePhotoButton.addEventListener("click", () => {
-      camera
-        .takePicture()
-        .then((_uuid) => {
-          console.log("UUID:", _uuid);
-          uuid = _uuid;
-          document.getElementById("takePictureButton").style.display = "none";
-          document.getElementById("photo").style.display = "block";
-          document.getElementById("empezar").style.display = "block";
-        })
-        .catch((error) => {
-          console.error("Error taking picture", error);
-        });
-    });*/
+  scanner.registerDiscoveredDeviceCallback(onNewDevice);
+  
+  const centralserver = new CentralUDPServer(8632);
+  centralserver.start();
   /*
   getCfg("time", 60).then((v) => {
     const tiempo = document.querySelector("#quantity");
@@ -39,14 +52,16 @@ document.addEventListener("DOMContentLoaded", () => {
   });*/
 });
 
-function onNewDevice(port) {
-  console.log("NEW DEV");
-  document.getElementById("takePictureButton").style.display = "block";
-  arduino = new Device("arduino", port);
-  arduino.registerDeviceUpdateCallback(onArduinoDataUpdated);
+function onNewDevice(device) {
+  console.log(`Discovered device: ${device}`);
+
+  //document.getElementById("takePictureButton").style.display = "block";
+
+  /*  arduino = new Device("arduino", port);
+  arduino.registerDeviceUpdateCallback(onArduinoDataUpdated);*/
 }
 
-function onArduinoDataUpdated(_points, _mistakes) {
+function onDeviceUpdate(_points, _mistakes) {
   console.log("updated", _points, _mistakes);
   points = _points;
   mistakes = _mistakes;
