@@ -6,6 +6,11 @@ const Device = require("./scripts/device");
 const CentralUDPServer = require("./scripts/centralserver");
 const os = require("os");
 
+/**
+ * @type {CentralUDPServer}
+ */
+let centralserver;
+
 document.addEventListener("DOMContentLoaded", () => {
   const btnStart = document
     .querySelector("#btnStart")
@@ -39,11 +44,15 @@ document.addEventListener("DOMContentLoaded", () => {
       console.log("btnClearDevsList");
     });
 
-  const scanner = new DeviceScanner(8632, []);
-  scanner.registerDiscoveredDeviceCallback(onNewDevice);
-  
-  const centralserver = new CentralUDPServer(8632);
+  centralserver = new CentralUDPServer(8632);
+  centralserver.registerNewDeviceCallback(onNewDevice);
+  centralserver.registerDeviceUpdateCallbacks(onDeviceUpdate);
   centralserver.start();
+
+  const scanner = new DeviceScanner(8632, []);
+  scanner.registerDiscoveredDeviceCallback(onDeviceDiscovered);
+  scanner.getDevicesInNetwork();
+
   /*
   getCfg("time", 60).then((v) => {
     const tiempo = document.querySelector("#quantity");
@@ -52,19 +61,33 @@ document.addEventListener("DOMContentLoaded", () => {
   });*/
 });
 
-function onNewDevice(device) {
-  console.log(`Discovered device: ${device}`);
-
-  //document.getElementById("takePictureButton").style.display = "block";
-
-  /*  arduino = new Device("arduino", port);
-  arduino.registerDeviceUpdateCallback(onArduinoDataUpdated);*/
+function onDeviceDiscovered(ip) {
+  centralserver.addDiscoveredDevice(ip);
 }
 
-function onDeviceUpdate(_points, _mistakes) {
-  console.log("updated", _points, _mistakes);
-  points = _points;
-  mistakes = _mistakes;
+function onNewDevice(dev) {
+  createDeviceCard(dev);
+}
+
+function onDeviceUpdate(dev) {
+  updateDeviceCard(dev);
+}
+
+/**
+ * 
+ * @param {Device} dev 
+ */
+function createDeviceCard(dev){
+  document.getElementById('deviceContainer').appendChild(dev.card)
+}
+
+/**
+ * 
+ * @param {Device} dev 
+ */
+function updateDeviceCard(dev) {
+  let id = dev.ip.replace(/\./g, '');
+  //document.getElementById(`card${id}`).outerHTML = dev.card;
 }
 
 configActive = true;

@@ -1,58 +1,98 @@
-const { exec } = require("child_process");
-const dgram = require("node:dgram");
-const { Buffer } = require("node:buffer");
-const os = require("os");
-const Evilscan = require("evilscan");
+const dgram = require("dgram");
+
+const Teams = {
+  red: "red",
+  blue: "blue",
+  none: "none",
+};
 
 class Device {
-  constructor(ip, mac) {
-    this.ip = ip;
-    this.mac = mac;
-    this.deviceUpdateCallbacks = [];
-    this.socket = null;
-    this.initDevice().then((socket)=>{
-    });
-  }
-
   /**
-   * 
-   * @returns {Promise<dgram.Socket>}  A promise
-   */
-  initDevice() {
-    return new Promise(async (resolve, reject) => {
-      const message = Buffer.from("PING");
-      const socket = await dgram.createSocket("udp4");
-      socket.send(message, this.port, this.ip, (err, bytes) => {});
-      socket.on("message", (msg, rinfo) => {
-        console.log(rinfo);
-        let message = msg.toString();
-        if (message == "PONG") {
-          console.log("PONG");
-          resolve(socket);
-          socket.close();
-        }
-      });
-      socket.on("error", (err) => {
-        socket.close();
-        reject(new Error(`Device returned error: ${err}`));
-      });
-    });
-  }
-
-  /**
-   * Register a callback function to handle discovered devices.
    *
-   * @param {function} callback - The callback function to be invoked when a device is discovered.
-   * @returns {void}
+   * @param {string} ip
    */
-  registerDiscoveredDeviceCallback(callback) {
-    this.discoveredDeviceCallback = callback;
-    this.loadSaved();
+  constructor(ip, port) {
+    console.log(`new ${ip}`);
+    this.ip = ip;
+    this.port = port;
+    this.id = null;
+    this.team = Teams.none;
+    this.id;
+    this.defaultTeam = Teams.none;
+    this.card = null;
+    this.updateCard();
+    /**
+     * @private
+     */
+    this.sendCommandCallback;
+    /**
+     * @private
+     */
+    this.deviceUpdateCallbacks = [];
+  }
+
+  registerSendCommandCallback(callback) {
+    this.sendCommandCallback = callback;
+  }
+
+  registerDeviceUpdateCallback(callback) {
+    this.deviceUpdateCallbacks.push(callback);
+  }
+
+  /**
+   *
+   * @param {Teams} team
+   */
+  setDefaultTeam(team) {
+    let t = team == Teams.blue ? "DT_BLUE" : "DT_RED";
+    this.sendCommandCallback(this, t);
+  }
+
+  reset() {
+    this.sendCommandCallback(this, "RESET");
+  }
+
+  getStateRequest() {
+    this.sendCommandCallback(this, "GETSTATE");
+  }
+
+  updateCard() {
+    const c = document.createElement("div");
+    c.className = "col-3";
+    c.id = `card${this.ip.replace(/\./g, "")}`;
+    c.innerHTML = `
+  <div class="card">
+    <div class="card-header""> 
+      ${this.id}
+    </div>
+    <div class="card-body">
+      <table class="table">
+        <tbody>
+          <tr>
+            <td><button type="button" class="btn btn-secondary" id="reset${this.ip.replace(
+              ".",
+              ""
+            )}">RESET</button></td>
+            <td><button type="button" class="btn btn-secondary">IDENTIFY</button></td>
+          </tr>
+          <tr>
+            <td colspan="2">
+              <p>${this.ip}</p>
+            </td>
+          </tr>
+          <tr>
+            <td><button type="button" class="btn btn-secondary">DEFAULT RED</button></td>
+            <td><button type="button" class="btn btn-secondary">DEFAULT BLUE</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>`;
+    this.card = c;
+    this.deviceUpdateCallbacks.forEach((cb) => {
+      cb(this);
+    });
   }
 }
 
 module.exports = Device;
-
-function sleep(seconds) {
-  return new Promise((resolve) => setTimeout(resolve, seconds * 1000));
-}

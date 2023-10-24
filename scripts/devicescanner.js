@@ -1,10 +1,7 @@
-const { exec } = require("child_process");
-//const ip = require("ip");
 const dgram = require("node:dgram");
 const { Buffer } = require("node:buffer");
 const os = require("os");
 const Evilscan = require("evilscan");
-const { resolve } = require("path");
 
 class DeviceScanner {
   constructor(port, savedDevices) {
@@ -18,6 +15,10 @@ class DeviceScanner {
     this.isDiscovering = false;
   }
 
+  /**
+   *
+   * @returns {Promise<string[]|Error>}
+   */
   getNetworkInterfaces() {
     return new Promise((resolve, reject) => {
       console.log("Getting local IP");
@@ -43,6 +44,7 @@ class DeviceScanner {
   /**
    * Looks for every device in all IPv4 interfaces, if any of them ports is rejected, open, or
    * unreachable it counts as a device and tries to validate the device for a board to be existing there.
+   * @returns {void}
    */
   getDevicesInNetwork() {
     this.getNetworkInterfaces()
@@ -54,14 +56,17 @@ class DeviceScanner {
         const options = {
           target: adr,
           port: this.port,
-          timeout: 3000,
+          timeout: 3500,
           status: "ROU",
           banner: true,
         };
         const evilscan = new Evilscan(options);
         evilscan.on("result", (data) => {
-          this.handleNewIPDevice(data.ip);
-          this.validateDevice(data.ip);
+          this.handleNewIPDevice(data.ip).then((ip)=>{
+            console.log(`Sending new Device `)
+            console.log(data);
+            this.discoveredDeviceCallback(ip);
+          });
         });
         evilscan.on("error", (err) => {
           console.log(err);
@@ -80,27 +85,14 @@ class DeviceScanner {
   /**
    *
    * @param {string} ip
-   * @returns {Promise<(string,string)|Error>}
+   * @returns {Promise<string|Error>}
    */
   handleNewIPDevice(ip) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       if (!this.discoveredDevices.includes(ip)) {
         this.discoveredDevices.push(ip);
-        this.validateDevice(ip)
-          .then(() => {
-            console.log("Valid device found, retrieving mac address");
-            this.getMacAddress(ip)
-              .then((mac) => {
-                resolve(ip, mac);
-              })
-              .catch((err) => {
-                reject(new Error(`MAC address could not be retrieved: ${err}`));
-              });
-            this.discoveredDeviceCallback(ip);
-          })
-          .catch((err) => {
-            reject(new Error(`Invalid device: ${err}`));
-          });
+        this.discoveredDeviceCallback(ip);
+        resolve(ip);
       }
     });
   }
@@ -113,137 +105,12 @@ class DeviceScanner {
    */
   registerDiscoveredDeviceCallback(callback) {
     this.discoveredDeviceCallback = callback;
-    //this.loadSaved();
   }
 
   clearKnownDevices() {
     this.knownValidDevices = [];
     this.validDevices = [];
     this.failedKnownDevices = [];
-  }
-
-  loadSaved() {
-    if (this.knownValidDevices.length > 0) {
-      for (const dev of this.knownValidDevices) {
-        if (this.validateDevice(dev)) {
-          this.validDevices.push(dev);
-          this.discoveredDeviceCallback(dev);
-        } else {
-          this.failedKnownDevices.push(dev);
-        }
-      }
-    }
-
-    if (this.failedKnownDevices.length > 0) {
-      this.startDeviceRetrieval();
-    }
-  }
-
-  startDeviceRetrieval() {
-    const t = new Thread(this.run_device_retrieval, this.name);
-    t.daemon = true;
-    t.start();
-  }
-
-  run_device_retrieval() {
-    while (this.failedKnownDevices.length > 0) {
-      for (const dev of this.failedKnownDevices) {
-        if (this.validateDevice(dev)) {
-          const index = this.failedKnownDevices.indexOf(dev);
-          this.failedKnownDevices.splice(index, 1);
-          this.validDevices.push(dev);
-          this.discoveredDeviceCallback(dev);
-        }
-      }
-    }
-  }
-
-  // start_discovery() {
-  //   this.isDiscovering = true;
-  //   const t = new Thread(this.runDeviceDiscovery, this.name);
-  //   t.daemon = true;
-  //   t.start();
-  // }
-
-  // stop_discovery() {
-  //   this.isDiscovering = false;
-  // }
-
-  // runDeviceDiscovery() {
-  //   while (this.isDiscovering) {
-  //     const devices = this.discoverDevices(
-  //       this.subnet.networkAddress,
-  //       this.subnet.numHosts
-  //     );
-  //     for (const device of devices) {
-  //       const ip = device.ip;
-  //       const mac = device.mac;
-  //       if (!this.knownValidDevices.includes(ip)) {
-  //         console.log(`New device discovered: IP=${ip}, MAC=${mac}`);
-  //         this.knownValidDevices.push(ip);
-  //         if (this.validateDevice(ip)) {
-  //           this.validDevices.push(ip);
-  //           this.discoveredDeviceCallback(ip);
-  //         }
-  //       }
-  //     }
-
-  //     sleep(30);
-  //   }
-  // }
-
-  /**
-   *
-   * @param {string} ip
-   * @returns {Promise<string|Error>}
-   */
-  getMacAddress(ip) {
-    return new Promise((resolve, reject) => {
-      let command;
-      if (os.platform() === "win32") {
-        command = `arp -a ${ip}`;
-      } else if (os.platform() === "linux") {
-        command = `arp ${ip}`;
-      } else {
-        reject(new Error("This OS is not supported."));
-      }
-
-      exec(command, (error, stdout) => {
-        if (error) {
-          reject(new Error("Error executing command"));
-        } else {
-          const regex = /([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})/;
-          const match = regex.exec(stdout);
-          resolve(match ? match[0] : null);
-        }
-      });
-    });
-  }
-
-  /**
-   *
-   * @param {string} ip
-   * @returns {Promise<null|Error>}
-   */
-  async validateDevice(ip) {
-    return new Promise(async (resolve, reject) => {
-      const message = Buffer.from("PING");
-      const socket = await dgram.createSocket("udp4");
-      socket.send(message, this.port, ip, (err, bytes) => {});
-      socket.on("message", (msg, rinfo) => {
-        //console.log(rinfo);
-        let message = msg.toString();
-        if (message == "PONG") {
-          //console.log("PONG");
-          socket.close();
-          resolve();
-        }
-      });
-      socket.on("error", (err) => {
-        socket.close();
-        reject(new Error(`Device returned error: ${err}`));
-      });
-    });
   }
 }
 
