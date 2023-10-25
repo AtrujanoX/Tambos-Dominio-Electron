@@ -62,18 +62,12 @@ class DeviceScanner {
         };
         const evilscan = new Evilscan(options);
         evilscan.on("result", (data) => {
-          this.handleNewIPDevice(data.ip).then((ip)=>{
-            console.log(`Sending new Device `)
-            console.log(data);
-            this.discoveredDeviceCallback(ip);
-          });
+          this.handleNewIPDevice(data.ip);
         });
         evilscan.on("error", (err) => {
           console.log(err);
         });
         evilscan.on("done", () => {
-          //Seguimos buscando interfaces?
-          //evilscan.run();
         });
         evilscan.run();
       })

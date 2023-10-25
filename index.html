@@ -33,32 +33,21 @@
     <div id="barIzq" class="progress-container">
       <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="25" aria-valuemin="0"
         aria-valuemax="100" style="height:80px">
-        <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 55%;"></div>
+        <div class="progress-bar progress-bar-striped progress-bar-animated" id="blueTeamBar" style="width: 55%;"></div>
       </div>
     </div>
     <div id="barDer" class="progress-container">
       <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="25" aria-valuemin="0"
         aria-valuemax="100" style="height:80px">
-        <div class="progress-bar bg-danger progress-bar-striped progress-bar-animated" style="width: 25%;"></div>
+        <div class="progress-bar bg-danger progress-bar-striped progress-bar-animated" id="redTeamBar" style="width: 25%;"></div>
       </div>
     </div>
     <img src="img/vs.png" width="">
   </div>
   <div id="botones">
     <div class="container text-center">
-      <div class="row align-items-start">
-        <div class="col">
-          <span class="fire" style="color: #CCC;">A</span>
-        </div>
-        <div class="col">
-          <span class="fire" style="color: #E80003;">B</span>
-        </div>
-        <div class="col">
-          <span class="fire" style="color: #CCC;">C</span>
-        </div>
-        <div class="col">
-          <span class="fire" style="color: #E80003;">D</span>
-        </div>
+      <div class="row align-items-start" id="pointsContainer">
+        
       </div>
     </div>
   </div>
@@ -77,48 +66,12 @@
           <button type="button" id="btnClearDevsList" class="btn btn-warning">CLEAR DEVICES LIST</button>
           <hr>
           <div class="container text-center" >
-            <div class="row align-items-end" id="deviceContainer">
-              <!-- INICIA CARD -->
-              <!-- <div class="col-3">
-                <div class="card">
-                  <div class="card-header">
-                    CON 01
-                  </div>
-                  <div class="card-body">
-                    <h5 class="card-title">Configuraciones</h5>
-                    <table class="table">
-                      <tbody>
-                        <tr>
-                          <td><button type="button" class="btn btn-secondary">RESET</button></td>
-                          <td><button type="button" class="btn btn-secondary">IDENTIFY</button></td>
-                        </tr>
-                        <tr>
-                          <td colspan="2">
-                            <p>00-00-00-00-00</p>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td><button type="button" class="btn btn-secondary">DEFAULT RED</button></td>
-                          <td><button type="button" class="btn btn-secondary">DEFAULT BLUE</button></td>
-                        </tr>
-                        <tr>
-                          <td colspan="2">
-                            <p>00-00-00-00-00</p>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div> -->
-              <!-- TERMINA CARD -->
-              
-            </div>
+            <div class="row align-items-end" id="deviceContainer"><!-- CARD CONTAINER --></div>
           </div>
           <!-- aqui termina cards   -->
         </div>
         <div class="modal-footer">
-          <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-dismiss="modal">Cerrar</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
         </div>
       </div>
     </div>

@@ -4,18 +4,28 @@ const fs = require("fs");
 const DeviceScanner = require("./scripts/devicescanner");
 const Device = require("./scripts/device");
 const CentralUDPServer = require("./scripts/centralserver");
+const GameManager = require("./scripts/gamemanager");
 const os = require("os");
 
 /**
  * @type {CentralUDPServer}
  */
 let centralserver;
+/**
+ * @type {GameManager}
+ */
+let gameManager;
+let blueProgress = 0;
+let redProgress = 0;
 
 document.addEventListener("DOMContentLoaded", () => {
   const btnStart = document
     .querySelector("#btnStart")
     .addEventListener("click", () => {
+      runGame();
       console.log("START");
+      blueProgress+=0.01;
+      document.getElementById('blueTeamBar').style.width = `${blueProgress*100}%`;
     });
   const btnStop = document
     .querySelector("#btnStop")
@@ -25,6 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnReset = document
     .querySelector("#btnReset")
     .addEventListener("click", () => {
+      centralserver.resetAllDevices();
       console.log("RESET");
     });
   const btnResetAll = document
@@ -45,8 +56,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
   centralserver = new CentralUDPServer(8632);
-  centralserver.registerNewDeviceCallback(onNewDevice);
-  centralserver.registerDeviceUpdateCallbacks(onDeviceUpdate);
   centralserver.start();
 
   const scanner = new DeviceScanner(8632, []);
@@ -65,40 +74,6 @@ function onDeviceDiscovered(ip) {
   centralserver.addDiscoveredDevice(ip);
 }
 
-function onNewDevice(dev) {
-  createDeviceCard(dev);
-}
-
-function onDeviceUpdate(dev) {
-  updateDeviceCard(dev);
-}
-
-/**
- * 
- * @param {Device} dev 
- */
-function createDeviceCard(dev){
-  document.getElementById('deviceContainer').appendChild(dev.card)
-}
-
-/**
- * 
- * @param {Device} dev 
- */
-function updateDeviceCard(dev) {
-  let id = dev.ip.replace(/\./g, '');
-  //document.getElementById(`card${id}`).outerHTML = dev.card;
-}
-
-configActive = true;
-function toggleConfigPanel(active) {
-  if (active) {
-    document.getElementById("configPanel").style.display = "block";
-  } else {
-    document.getElementById("configPanel").style.display = "none";
-  }
-}
-
 function configTimeAdd() {
   const tiempo = document.querySelector("#quantity");
   v = parseInt(tiempo.value) + 10;
@@ -110,26 +85,11 @@ function configTimeAdd() {
 
 function configTimeSub() {
   const tiempo = document.querySelector("#quantity");
-
   v = parseInt(tiempo.value) - 10;
   if (v <= 0) v = 10;
   tiempo.value = v;
   this.tiempoRonda = v;
   setCfg("time", v);
-}
-
-function showCameraPanel() {
-  document.getElementById("teclado").style.display = "none";
-  document.getElementById("camara").style.display = "block";
-  document.getElementById("counter").style.display = "none";
-  document.getElementById("score").style.display = "none";
-  arduino.reset();
-  uuid = null;
-  points = 0;
-  mistakes = 0;
-  document.getElementById("takePictureButton").style.display = "block";
-  document.getElementById("photo").style.display = "none";
-  document.getElementById("empezar").style.display = "none";
 }
 
 function showGamePanel() {

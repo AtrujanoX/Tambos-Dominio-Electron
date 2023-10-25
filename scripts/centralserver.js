@@ -31,44 +31,14 @@ class CentralUDPServer {
   handleMessage = (msgArray, rinfo) => {
     // Identify the source based on the message content
     const msg = msgArray.toString();
-    console.log(msg);
     if (msg == "PING") return;
     if (msg == "PONG") {
       this.registerNewDevice(rinfo.address);
     } else {
       this.identifySource(rinfo)
         .then((dev) => {
+          dev.processMessage(msg);
           //KNOWN DEVICE
-          switch (msg.toString()) {
-            case "RESET_OK":
-              dev.team = Teams.none;
-              break;
-            case "OK_TEAMRED":
-              dev.defaultTeam = Teams.red;
-              console.log(`Default team for ${dev.id} is ${dev.defaultTeam}`);
-              break;
-            case "OK_TEAMBLUE":
-              dev.defaultTeam = Teams.blue;
-              console.log(`Default team for ${dev.id} is ${dev.defaultTeam}`);
-              break;
-            case "BLUE":
-              dev.team = Teams.blue;
-              break;
-            case "RED":
-              dev.team = Teams.red;
-              break;
-            case "NONE":
-              dev.team = Teams.none;
-              break;
-            case "ERROR":
-              break;
-            default:
-              //ID
-              if (msg.includes(":")) dev.id = msg;
-              break;
-          }
-
-          dev.updateCard();
           console.log(
             `Received message from known ${dev.id} at ${rinfo.address}:${rinfo.port}: ${msg}`
           );
@@ -104,6 +74,7 @@ class CentralUDPServer {
     this.newDeviceCallbacks.forEach((cb) => {
       cb(dev);
     });
+    dev.updateCard();
     console.log(`New device registered ${ip}`);
   }
 
@@ -120,10 +91,16 @@ class CentralUDPServer {
    * @param {Device} dev
    */
   onDeviceUpdated = (dev) => {
-  this.deviceUpdateCallbacks.forEach(cb => {
-    cb(dev);
-  });
+    this.deviceUpdateCallbacks.forEach((cb) => {
+      cb(dev);
+    });
   };
+
+  resetAllDevices(){
+    this.devices.forEach((dev)=>{
+      dev.reset();
+    })
+  }
 
   /**
    * @private
@@ -146,7 +123,6 @@ class CentralUDPServer {
    * @param {string} ip
    */
   addDiscoveredDevice(ip) {
-    console.log(ip);
     this.udpServer.send("PING", this.port, ip);
   }
 
